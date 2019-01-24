@@ -42,9 +42,7 @@
 <script>
 import bcrypt from "bcryptjs";
 import debounce from "lodash.debounce";
-import CryptoJS from "crypto-js";
-const METHODS = { BCRYPT: "bcrypt", MD5: "md5" };
-const PREFIXES = { BCRYPT: "$2y$", MD5: "$apr1$" };
+const METHODS = { BCRYPT: "bcrypt" };
 export default {
   name: "Htpasswrd",
   data() {
@@ -56,7 +54,7 @@ export default {
       debounceTimer: 500,
       calculating: false,
       selectedMethod: METHODS.BCRYPT,
-      methods: [METHODS.BCRYPT, METHODS.MD5]
+      methods: [METHODS.BCRYPT]
     };
   },
   computed: {
@@ -66,19 +64,26 @@ export default {
   },
   watch: {
     password() {
+      this.generatePassword();
+    },
+    saltLength() {
+      this.generatePassword();
+    },
+    selectedMethod() {
+      this.generatePassword();
+    }
+  },
+  methods: {
+    generatePassword() {
       const self = this;
       if (self.password !== "") {
         if (this.selectedMethod === METHODS.BCRYPT) {
           this.debouncedBcrypt();
-        } else if (this.selectedMethod === METHODS.MD5) {
-          this.debouncedMd5();
         }
       } else {
         self.result = "";
       }
-    }
-  },
-  methods: {
+    },
     setBcryptHash() {
       const self = this;
       self.calculating = true;
@@ -86,21 +91,16 @@ export default {
         if (!err) {
           bcrypt.hash(self.password, salt, (err, hash) => {
             if (!err) {
-              self.result = `${PREFIXES.BCRYPT}${hash}`;
+              self.result = `${hash}`;
               self.calculating = false;
             }
           });
         }
       });
-    },
-    setMd5Hash() {
-      const hash = CryptoJS.MD5(this.password).toString();
-      this.result = `${PREFIXES.MD5}${hash}`;
     }
   },
   created() {
     this.debouncedBcrypt = debounce(this.setBcryptHash, this.debounceTimer);
-    this.debouncedMd5 = debounce(this.setMd5Hash, this.debounceTimer);
   }
 };
 </script>
