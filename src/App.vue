@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1 class="h1">Htpasswd Generator</h1>
+    <h1 class="h1 text-center">Htpasswd Generator</h1>
     <htpasswd />
   </div>
 </template>

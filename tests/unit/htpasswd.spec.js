@@ -1,12 +1,9 @@
 import { shallowMount } from "@vue/test-utils";
-import HelloWorld from "@/components/Htpasswd.vue";
+import Htpasswd from "@/components/Htpasswd.vue";
 
-describe("HelloWorld.vue", () => {
-  it("renders props.msg when passed", () => {
-    const msg = "new message";
-    const wrapper = shallowMount(HelloWorld, {
-      propsData: { msg }
-    });
-    expect(wrapper.text()).toMatch(msg);
+describe("Htpasswd.vue", () => {
+  it("renders like snapshot", () => {
+    const wrapper = shallowMount(Htpasswd, {});
+    expect(wrapper.element).toMatchSnapshot();
   });
 });
