@@ -8,7 +8,7 @@
       </div>
       <div class="medium-6 cell">
         <label for="password">Password
-          <input id="password" type="text" v-model="password">
+          <input id="password" type="password" v-model="password">
         </label>
       </div>
     </div>
@@ -42,7 +42,9 @@
 <script>
 import bcrypt from "bcryptjs";
 import debounce from "lodash.debounce";
-const METHODS = { BCRYPT: "bcrypt" };
+import CryptoJS from "crypto-js";
+const METHODS = { BCRYPT: "bcrypt", MD5: "md5" };
+const PREFIXES = { BCRYPT: "$2y$", MD5: "$apr1$" };
 export default {
   name: "Htpasswrd",
   data() {
@@ -51,9 +53,10 @@ export default {
       password: "",
       saltLength: 10,
       result: "",
+      debounceTimer: 500,
       calculating: false,
       selectedMethod: METHODS.BCRYPT,
-      methods: [METHODS.BCRYPT]
+      methods: [METHODS.BCRYPT, METHODS.MD5]
     };
   },
   computed: {
@@ -66,7 +69,9 @@ export default {
       const self = this;
       if (self.password !== "") {
         if (this.selectedMethod === METHODS.BCRYPT) {
-          this.debouncedHashing();
+          this.debouncedBcrypt();
+        } else if (this.selectedMethod === METHODS.MD5) {
+          this.debouncedMd5();
         }
       } else {
         self.result = "";
@@ -74,23 +79,28 @@ export default {
     }
   },
   methods: {
-    setHash() {
+    setBcryptHash() {
       const self = this;
       self.calculating = true;
       bcrypt.genSalt(self.saltLength, (err, salt) => {
         if (!err) {
           bcrypt.hash(self.password, salt, (err, hash) => {
             if (!err) {
-              self.result = hash;
+              self.result = `${PREFIXES.BCRYPT}${hash}`;
               self.calculating = false;
             }
           });
         }
       });
+    },
+    setMd5Hash() {
+      const hash = CryptoJS.MD5(this.password).toString();
+      this.result = `${PREFIXES.MD5}${hash}`;
     }
   },
   created() {
-    this.debouncedHashing = debounce(this.setHash, 500);
+    this.debouncedBcrypt = debounce(this.setBcryptHash, this.debounceTimer);
+    this.debouncedMd5 = debounce(this.setMd5Hash, this.debounceTimer);
   }
 };
 </script>
