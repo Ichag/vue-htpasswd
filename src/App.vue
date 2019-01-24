@@ -1,16 +1,17 @@
 <template>
   <div id="app">
-    <ht-access />
+    <h1 class="h1">Htpasswd Generator</h1>
+    <htpasswd />
   </div>
 </template>
 
 <script>
-import HtAccess from "./components/HtAccess.vue";
+import Htpasswd from "./components/Htpasswd.vue";
 
 export default {
   name: "app",
   components: {
-    HtAccess
+    Htpasswd
   }
 };
 </script>
