@@ -1,4 +1,6 @@
 # htpasswd-generator
+[![pipeline status](https://gitlab.hellbit.de/ichag/htpasswd-generator/badges/master/pipeline.svg)](https://gitlab.hellbit.de/ichag/htpasswd-generator/commits/master)
+
 Provides a web application which generates htpasswd ready entries.  
 The app uses hash algorithms implemented in JavaScript, so your password has not to leave your browser.
  
