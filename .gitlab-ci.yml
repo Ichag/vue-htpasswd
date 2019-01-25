@@ -23,6 +23,6 @@ pages:
     - mv dist public
   artifacts:
     paths:
-      - public
+      - public/
   only:
     - master
