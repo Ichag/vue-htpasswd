@@ -7,6 +7,8 @@ The app uses hash algorithms implemented in JavaScript, so your password has not
 [bcryptjs](https://github.com/dcodeIO/bcrypt.js/) is used for [bcrypt](https://en.wikipedia.org/wiki/Bcrypt), it's the default and the recommended hashing algorithm.
 
 
+## Demo
+http://ichag.pages.gitlab.hellbit.de/htpasswd-generator/
 
 ## Project setup
 
