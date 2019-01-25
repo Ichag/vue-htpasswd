@@ -17,10 +17,12 @@ test:unit:
 pages:
   stage: deploy
   script:
-    - npm install
+    - npm ci
     - npm run build
+    - mv public public-vue
+    - mv dist public
   artifacts:
     paths:
-      - dist
+      - public
   only:
     - master
