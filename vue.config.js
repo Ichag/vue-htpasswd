@@ -2,5 +2,6 @@
 // make sure you update `yourProjectName` with the name of your GitLab project
 
 module.exports = {
-  publicPath: process.env.NODE_ENV === "production" ? "/ichag/" : "/"
+  publicPath:
+    process.env.NODE_ENV === "production" ? "/htpasswd-generator/" : "/"
 };
