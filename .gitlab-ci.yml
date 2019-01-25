@@ -13,6 +13,7 @@ test:unit:
   script:
    - npm install
    - npm run test:unit
+  coverage: /All\sfiles.*?\s+(\d+.\d+)/
 
 pages:
   stage: deploy
